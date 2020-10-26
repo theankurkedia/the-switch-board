@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "The Switch Board",
+    "description": "Change the color mode of any page",
+    "version": "1",
+    "author": "Ankur Kedia",
+    "browser_action": {
+        "default_title": "The Switch Board"
+    },
+    "background": {
+        "persistent": false,
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "permissions": [
+        "activeTab",
+        "contextMenus"
+    ]
+}
