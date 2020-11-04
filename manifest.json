@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "The Switch Board",
-    "description": "Change the color mode of any page",
-    "version": "1",
+    "description": "Switch the color mode of any page",
+    "version": "2",
     "author": "Ankur Kedia",
     "browser_action": {
         "default_title": "The Switch Board"
