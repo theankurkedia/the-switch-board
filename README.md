@@ -1,3 +1,3 @@
 # The Switch Board
 
-A chrome extension to change the color mode of a page.
+A chrome extension to switch the color mode of a page.
