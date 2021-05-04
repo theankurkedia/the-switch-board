@@ -23,8 +23,27 @@ function toggleMode(tab) {
   ].join('\n');
   chrome.tabs.executeScript(tab.id, { code });
 }
-chrome.contextMenus.onClicked.addListener(function (info, tab) {
-  if (tab && info.menuItemId === 'switch-board') {
-    toggleMode(tab);
+
+function onCommandListener(command, tab) {
+  if (command === 'switch') {
+    console.log('Switch command entered');
+    if (tab) {
+      toggleMode(tab);
+    }
   }
-});
+}
+
+function registerCommands() {
+  chrome.commands.onCommand.addListener(onCommandListener);
+}
+
+function registerContextMenuItem() {
+  chrome.contextMenus.onClicked.addListener(function (info, tab) {
+    if (tab && info.menuItemId === 'switch-board') {
+      toggleMode(tab);
+    }
+  });
+}
+
+registerCommands();
+registerContextMenuItem();

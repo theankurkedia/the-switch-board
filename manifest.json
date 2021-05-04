@@ -1,11 +1,19 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "The Switch Board",
     "description": "Switch the color mode of any page",
     "version": "3",
     "author": "Ankur Kedia",
     "browser_action": {
         "default_title": "The Switch Board"
+    },
+    "commands": {
+      "switch": {
+          "suggested_key": {
+              "default": "Alt+Shift+S"
+          },
+          "description": "Switch mode"
+      }
     },
     "icons": {
         "16": "icon16.png",
