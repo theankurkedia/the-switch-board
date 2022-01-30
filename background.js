@@ -16,9 +16,8 @@ function toggleMode(tab) {
     "style.type = 'text/css';",
     "style.appendChild(document.createTextNode('" +
       'html { filter: invert(1) hue-rotate(180deg); color-scheme: dark;}' +
-      ' img { filter: invert(1) hue-rotate(-180deg);}' +
-      " iframe { filter: invert(1) hue-rotate(-180deg);}'));",
-    "document.getElementsByTagName('html')[0].appendChild(style);",
+      " img, video, iframe { filter: invert(1) hue-rotate(-180deg);} '));" +
+      "document.getElementsByTagName('html')[0].appendChild(style);",
     '}',
   ].join('\n');
   chrome.tabs.executeScript(tab.id, { code });
