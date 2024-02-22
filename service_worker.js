@@ -20,7 +20,12 @@ function toggleMode(tab) {
       "document.getElementsByTagName('html')[0].appendChild(style);",
     '}',
   ].join('\n');
-  chrome.tabs.executeScript(tab.id, { code });
+  chrome.scripting.executeScript({
+    target: {tabId: tab.id},
+    function: () => {
+      console.log('Executing script');
+    }
+  })
 }
 
 function onCommandListener(command, tab) {
