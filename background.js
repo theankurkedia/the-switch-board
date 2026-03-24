@@ -1,48 +1,38 @@
-chrome.contextMenus.create({
-  id: 'switch-board',
-  title: 'Switch mode',
-  contexts: ['all'],
+chrome.runtime.onInstalled.addListener(function () {
+  chrome.contextMenus.create({
+    id: 'switch-board',
+    title: 'Switch mode',
+    contexts: ['all'],
+  });
 });
 
 function toggleMode(tab) {
-  let code = [
-    "var style = document.getElementById('the-switch-board-dark-mode-style');",
-    'if(style){',
-    'style.remove();',
-    '}',
-    'else{',
-    "style = document.createElement('STYLE');",
-    "style.setAttribute('id','the-switch-board-dark-mode-style')",
-    "style.type = 'text/css';",
-    "style.appendChild(document.createTextNode('" +
-      'html { filter: invert(1) hue-rotate(180deg); color-scheme: dark;}' +
-      " img, video, iframe { filter: invert(1) hue-rotate(-180deg);} '));" +
-      "document.getElementsByTagName('html')[0].appendChild(style);",
-    '}',
-  ].join('\n');
-  chrome.tabs.executeScript(tab.id, { code });
-}
-
-function onCommandListener(command, tab) {
-  if (command === 'switch') {
-    console.log('Switch command entered');
-    if (tab) {
-      toggleMode(tab);
-    }
+  if (!tab || tab.id == null) {
+    console.warn('[SwitchBoard] No valid tab to inject into.');
+    return;
   }
-}
-
-function registerCommands() {
-  chrome.commands.onCommand.addListener(onCommandListener);
-}
-
-function registerContextMenuItem() {
-  chrome.contextMenus.onClicked.addListener(function (info, tab) {
-    if (tab && info.menuItemId === 'switch-board') {
-      toggleMode(tab);
-    }
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ['content.js'],
+  }).catch(function (err) {
+    console.warn('[SwitchBoard] Script injection failed:', err.message);
   });
 }
 
-registerCommands();
-registerContextMenuItem();
+chrome.action.onClicked.addListener(function (tab) {
+  toggleMode(tab);
+});
+
+chrome.commands.onCommand.addListener(function (command, tab) {
+  if (command === 'switch') {
+    if (tab && tab.id != null) {
+      toggleMode(tab);
+    }
+  }
+});
+
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+  if (tab && info.menuItemId === 'switch-board') {
+    toggleMode(tab);
+  }
+});
